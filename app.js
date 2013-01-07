@@ -1,7 +1,7 @@
 var express =require('express');
 var app = express();
 var request = require('request');
-var redis = require('redis').createClient();
+var redis = require('redis-url').connect(process.env.REDISTOGO_URL);
 var cachey = require('cachey')({redisClient:redis});
 var Canvas = require('canvas');
 var RegClient = require('npm-registry-client');
