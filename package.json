@@ -1,18 +1,17 @@
 {
-  "name": "sonos",
-  "version": "0.1.1",
-  "description": "Node.js Sonos Interface",
-  "main": "index.js",
+  "name": "npmgraph",
+  "version": "0.0.0",
+  "private": true,
+  "description": "npm graphing site",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "",
   "keywords": [
-    "sonos",
-    "music",
-    "control",
-    "play",
-    "interface"
+    "npm",
+    "graph",
+    "render"
   ],
   "author": "Ben Evans <ben@bensbit.co.uk> (http://bensbit.co.uk)",
   "license": "None",
