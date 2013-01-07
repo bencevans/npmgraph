@@ -1,0 +1,90 @@
+<html>
+<head>
+  <title>{{package.name}} | NPM Graphs</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <style type="text/css">
+  #chart {
+    background-color:#fff;
+  }
+  #chart rect {
+    fill:#888;
+  }
+  </style>
+</head>
+<body>
+  <h2>SVG</h2>
+  <svg id="chart" height=100> </svg>
+  <h2>Canvas</h2>
+  <canvas id="canvaschart" width=900 height=100></canvas><br/>
+  <h2>Image</h2>
+  <img src="/package/{{package.name}}/30days.png">
+  <script type="text/javascript">
+  var NS="http://www.w3.org/2000/svg";
+
+  function chart(svgDOM, data) {
+
+    var width = 900;
+    var height = 100;
+    var barGutter = 1;
+    var barWidth = width / data.length
+
+    var max = null;
+    for(var i in data) {
+      if(max == null || max < data[i].downloads)
+        max = data[i].downloads;
+    }
+
+    for(var i in data) {
+      var SVGObj=document.createElementNS(NS,"rect");
+      SVGObj.setAttribute("height",((data[i].downloads == 0) ? 0 : (data[i].downloads/max) * height));
+      SVGObj.setAttribute("width",barWidth - barGutter);
+      SVGObj.setAttribute("y",height-((data[i].downloads == 0) ? 0 : (data[i].downloads/max) * height));
+      SVGObj.setAttribute("x",i*barWidth);
+      
+      var title = document.createElementNS(NS, "title");
+      title.textContent = data[i].date + ': ' + data[i].downloads;
+
+      SVGObj.appendChild(title)
+      svgDOM.appendChild(SVGObj);
+    }
+
+  }
+
+  function chartCanvas(canvasDOM, data) {
+
+    var ctx = canvasDOM.getContext('2d');
+    var width = 900;
+    var height = 100;
+    var barGutter = 1;
+    var barWidth = width / data.length
+
+    var max = null;
+    for(var i in data) {
+      if(max == null || max < data[i].downloads)
+        max = data[i].downloads;
+    }
+
+    for(var i in data) {
+      ctx.beginPath();
+
+      var tempBarHeight = ((data[i].downloads == 0) ? 0 : (data[i].downloads/max) * height);
+      var tempBarWidth = barWidth - barGutter;
+      var tempBarX = i * barWidth
+      var tempBarY = height - ((data[i].downloads == 0) ? 0 : (data[i].downloads/max) * height)
+
+      ctx.rect(tempBarX, tempBarY, tempBarWidth, tempBarHeight)
+      ctx.fillStyle = '#888';
+      ctx.fill();
+    }
+
+  }
+
+
+  $.getJSON('/package/{{package.name}}/30days.json', function(data) {
+    chart(document.getElementById('chart'), data)
+    chartCanvas(document.getElementById('canvaschart'), data)
+  })
+
+  </script>
+</body>
+</html>

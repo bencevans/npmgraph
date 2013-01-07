@@ -1,0 +1,29 @@
+{
+  "name": "sonos",
+  "version": "0.1.1",
+  "description": "Node.js Sonos Interface",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "sonos",
+    "music",
+    "control",
+    "play",
+    "interface"
+  ],
+  "author": "Ben Evans <ben@bensbit.co.uk> (http://bensbit.co.uk)",
+  "license": "None",
+  "dependencies": {
+    "npm-registry-client": "~0.2.10",
+    "express": "~3.0.6",
+    "canvas": "~0.13.1",
+    "request": "~2.12.0",
+    "redis": "~0.8.2",
+    "cachey": "~0.1.0",
+    "datejs": "0.0.2",
+    "hbs": "~2.0.1"
+  }
+}
