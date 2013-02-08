@@ -41,7 +41,10 @@
 
   var NS = "http://www.w3.org/2000/svg";
   function chart(svgDOM, data) {
-    var width = 710;    var height = 150;    var barGutter = 1;    var barWidth = width / data.length
+    var width = 710;
+    var height = 150;
+    var barGutter = 1;
+    var barWidth = width / data.length
     var max = null;
     for(var i in data) {
       if(max == null || max < data[i].downloads)
@@ -49,10 +52,10 @@
     }
     for(var i in data) {
       var SVGObj=document.createElementNS(NS,"rect");
-      SVGObj.setAttribute("height",((data[i].downloads == 0) ? 0 : Math.round((data[i].downloads/max) * height)));
-      SVGObj.setAttribute("width",barWidth - barGutter);
-      SVGObj.setAttribute("y",height-((data[i].downloads == 0) ? 0 : (data[i].downloads/max) * height));
-      SVGObj.setAttribute("x",i*barWidth);
+      SVGObj.setAttribute("height", ((data[i].downloads == 0) ? 0 : Math.round((data[i].downloads/max) * height)));
+      SVGObj.setAttribute("width", barWidth - barGutter);
+      SVGObj.setAttribute("y", height - ((data[i].downloads == 0) ? 0 : Math.round((data[i].downloads/max) * height)));
+      SVGObj.setAttribute("x", i * barWidth);
       var title = document.createElementNS(NS, "title");
       title.textContent = data[i].date + ': ' + data[i].downloads;
       SVGObj.appendChild(title);
