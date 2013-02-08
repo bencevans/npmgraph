@@ -38,9 +38,15 @@ function chartCanvas(canvasDOM, data) {
 
 }
 
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+
 var db = {};
 db.getPackage = function(package, cb) {
-  cachey.cache('package:' + package, 60*60, function(cb) {
+  cachey.cache('package:' + package, 60 * 60, function(cb) {
     request({
       uri: 'https://isaacs.iriscouch.com/downloads/_design/app/_view/pkg?group_level=2&start_key=%5B%22' + package + '%22%5D&end_key=%5B%22' + package + '%22,%7B%7D%5D',
       json: true
