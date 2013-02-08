@@ -105,6 +105,10 @@ app.configure(function() {
   app.use(express['static']('./public'));
 });
 
+app.get('/', function(req, res) {
+  res.redirect('/package/npm');
+});
+
 app.get('/package/:package', function(req, res, next) {
   res.locals['package'] = {name:req.params['package']};
   res.render('package');
@@ -150,9 +154,6 @@ app.get('/user/:username', function(req, res, next) {
     res.jsonp(data);
   });
 });
-
-
-
 
 app.get('/~:user', function(req, res, next) {
   res.render('user');
