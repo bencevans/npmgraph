@@ -3,40 +3,8 @@ var app = express();
 var request = require('request');
 var redis = require('redis-url').connect(process.env.REDISTOGO_URL);
 var cachey = require('cachey')({redisClient:redis});
-var Canvas = require('canvas');
 var RegClient = require('npm-registry-client');
 require('datejs');
-
-
-
-function chartCanvas(canvasDOM, data) {
-
-  var ctx = canvasDOM.getContext('2d');
-  var width = 600;
-  var height = 40;
-  var barGutter = 1;
-  var barWidth = width / data.length;
-
-  var max = null;
-  for(var i in data) {
-    if(max === null || max < data[i].downloads)
-      max = data[i].downloads;
-  }
-
-  for(var i in data) {
-    ctx.beginPath();
-
-    var tempBarHeight = ((data[i].downloads === 0) ? 0 : (data[i].downloads/max) * height);
-    var tempBarWidth = barWidth - barGutter;
-    var tempBarX = i * barWidth;
-    var tempBarY = height - ((data[i].downloads === 0) ? 0 : (data[i].downloads/max) * height);
-
-    ctx.rect(tempBarX, tempBarY, tempBarWidth, tempBarHeight);
-    ctx.fillStyle = '#ccc';
-    ctx.fill();
-  }
-
-}
 
 app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -121,30 +89,10 @@ app.get('/package/:package/30days.json', function(req, res, next) {
   });
 });
 
-app.get('/package/:package/30days.png', function(req, res, next) {
-  db.get30Days(req.params['package'], function(err, data) {
-    if(err) return next(err);
-    res.type('png');
-    var canvas = new Canvas(600, 40);
-    chartCanvas(canvas, data);
-    res.send(canvas.toBuffer());
-  });
-});
-
 app.get('/package/:package/7days.json', function(req, res, next) {
   db.get7Days(req.params['package'], function(err, data) {
     if(err) return next(err);
     res.jsonp(data);
-  });
-});
-
-app.get('/package/:package/7days.png', function(req, res, next) {
-  db.get7Days(req.params['package'], function(err, data) {
-    if(err) return next(err);
-    res.type('png');
-    var canvas = new Canvas(600, 40);
-    chartCanvas(canvas, data);
-    res.json(canvas.toBuffer());
   });
 });
 
