@@ -107,7 +107,7 @@ app.get('/package/:package', function(req, res, next) {
 app.get('/package/:package/30days.json', function(req, res, next) {
   db.get30Days(req.params['package'], function(err, data) {
     if(err) return next(err);
-    res.json(data);
+    res.jsonp(data);
   });
 });
 
@@ -124,7 +124,7 @@ app.get('/package/:package/30days.png', function(req, res, next) {
 app.get('/package/:package/7days.json', function(req, res, next) {
   db.get7Days(req.params['package'], function(err, data) {
     if(err) return next(err);
-    res.json(data);
+    res.jsonp(data);
   });
 });
 
@@ -141,7 +141,7 @@ app.get('/package/:package/7days.png', function(req, res, next) {
 app.get('/user/:username', function(req, res, next) {
   db.getPackagesByUser(req.params['username'], function(err, data) {
     if(err) return next(err);
-    res.json(data)
+    res.jsonp(data);
   });
 });
 
