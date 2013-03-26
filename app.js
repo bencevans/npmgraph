@@ -68,4 +68,15 @@ app.get('/~:user', function(req, res, next) {
   res.render('user');
 });
 
+app.get('/sitemap.xml', function(req, res, next) {
+  db.getPackages(function(err, packages) {
+    if(err) return next(err);
+
+    var pre ='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>http://npmgraph.bensbit.co.uk/';
+    var post = '</urlset>';
+
+    res.send(pre + packages.join('</loc></url><url><loc>http://npmgraph.bensbit.co.uk/') + '</loc></url>' + post);
+  });
+});
+
 app.listen(process.env.PORT || 3000);
