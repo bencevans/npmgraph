@@ -30,6 +30,10 @@ if(process.env.CROSS_SITE) {
   });
 }
 
+if(process.env.FLUSH_START) {
+  cachey.flush(console.log);
+}
+
 /**
  * Routes
  */
