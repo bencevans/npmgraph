@@ -30,7 +30,8 @@ function chart(svgDOM, data) {
 var pageType = $('html').attr('data-page');
 
 if(pageType == 'user') {
-  var user = $('html').attr('data-user')
+  var user = $('html').attr('data-user');
+  $('.loader').css('display', 'block');
   $.getJSON('/user/' + user + '/packages.json', function(packages) {
     async.map(packages, function(package, cb) {
       $.getJSON('/package/' + package.name + '/30days.json', function(downloads) {
@@ -49,6 +50,14 @@ if(pageType == 'user') {
       console.log(dayTotals);
       console.log(err, packages);
       chart(document.querySelector('svg'), dayTotals);
+      $('.loader').css('display', 'none');
     });
+  });
+} else if (pageType == 'package') {
+  var package = $('html').attr('data-package');
+  $('.loader').css('display', 'block');
+  $.getJSON('/package/' + package + '/30days.json', function(data) {
+    chart(document.querySelector('svg'), data);
+    $('.loader').css('display', 'none');
   });
 }

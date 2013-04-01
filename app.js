@@ -43,16 +43,29 @@ if(process.env.FLUSH_START) {
  * Routes
  */
 
-app.get('/bundle.js', browserify('./client/index.js'));
-
 app.get('/', function(req, res) {
   res.redirect('/package/npm');
 });
 
 app.get('/package/:package', function(req, res, next) {
   res.locals['package'] = {name:req.params['package']};
+  res.locals.pageType = 'package';
+  res.locals.pagePackage = req.params['package'];
   res.render('package');
 });
+
+app.get('/~:user', function(req, res, next) {
+  res.render('user', {user:req.params.user, pageType: 'user', pageUser: req.params.user});
+});
+
+app.get('/user/:user', function(req, res, next) {
+  res.redirect('/~' + req.params.user);
+});
+
+
+/**
+ * Data Routes
+ */
 
 app.get('/package/:package/30days.json', function(req, res, next) {
   db.get30Days(req.params['package'], function(err, data) {
@@ -75,9 +88,7 @@ app.get('/user/:username/packages.json', function(req, res, next) {
   });
 });
 
-app.get('/user/:user', function(req, res, next) {
-  res.render('user', {user:req.params.user});
-});
+app.get('/bundle.js', browserify('./client/index.js'));
 
 app.get('/sitemap.xml', function(req, res, next) {
   db.getPackages(function(err, packages) {

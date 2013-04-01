@@ -1,72 +1,4 @@
-<html data-page="user" data-user="{{user}}">
-<head>
-  <title>{{package.name}} | npm graph</title>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
-  <meta name="description" content="View npm downloads graph for {{package.name}}">
-
-  <meta property="og:title" content="{{package.name}} downloads graph" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="http://npmgraph.bensbit.co.uk/package/{{package.name}}" />
-  <meta property="og:description" content="View npm downloads for {{package.name}}" />
-  <meta property="og:locale" content="en_GB" />
-  <meta property="og:locale:alternate" content="en_US" />
-  <meta property="og:site_name" content="npm graph" />
-  <meta property="fb:admins" content="1089532097"/>
-
-  <style type="text/css">
-  body {
-    background-color: #A7342F;
-    font-family: Verdana;
-    color: #222;
-  }
-
-  .container {
-    background-color: #FFF;
-    width: 720px;
-    margin: auto;
-    padding: 10px;
-  }
-
-  h2 {
-    display: inline;
-  }
-
-  .graph-container {
-    background-color: #111;
-    margin-top: 10px;
-    box-shadow: 0 0 4px #111;
-  }
-
-  svg {
-    height: 150px;
-    padding: 5px 5px 0px 5px;
-  }
-
-  svg rect {
-    fill:#ccc;
-  }
-
-  table {
-    width: 100%;
-  }
-
-  td, th {
-    padding: 5px;
-    text-align: left;
-    margin: 0;
-  }
-
-  tr:nth-of-type(even) {
-    background-color: #eee;
-  }
-  tr:hover {
-    background-color: #ddd;
-  }
-  </style>
-</head>
-<body>
-  <div class="container">
     <h2>{{user}}</h2> <a href="https://npmjs.org/~{{user}}">view on npm</a>
     <div class="graph-container">
       <svg/>
@@ -79,13 +11,4 @@
       </tr>
     </table>
   </div>
-  <script type="text/javascript" src="/bundle.js"></script>
-  <script type="text/javascript" src="/js/analytics.min.js"></script>
-  <script type="text/javascript">
-  analytics.initialize({
-    'Google Analytics' : 'UA-29362333-3',
-    'Gauges'         : '513c9626f5a1f5230d000092'
-  });
-  </script>
-</body>
-</html>
+

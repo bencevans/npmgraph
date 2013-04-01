@@ -1,0 +1,36 @@
+<html data-page="{{pageType}}" {{#if pageUser}}data-user="{{pageUser}}"{{/if}} {{#if pagePackage}}data-package="{{pagePackage}}"{{/if}}>
+<head>
+  <title>{{#if title}}{{title}} | {{/if}}npm graph</title>
+
+  <meta name="description" content="View npm downloads graph for {{package.name}}">
+
+  {{#if og}}
+  <meta property="og:title" content="{{package.name}} downloads graph" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://npmgraph.bensbit.co.uk/package/{{package.name}}" />
+  <meta property="og:description" content="View npm downloads for {{package.name}}" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:site_name" content="npm graph" />
+  {{/if}}
+
+  <meta property="fb:admins" content="1089532097"/>
+
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+</head>
+<body>
+  <div class="container">
+    <div class="loader"></div>
+    {{{body}}}
+  </div>
+  <script type="text/javascript" src="/bundle.js"></script>
+  <script type="text/javascript" src="/js/analytics.min.js"></script>
+  <script type="text/javascript">
+  analytics.initialize({
+    'Google Analytics' : 'UA-29362333-3',
+    'Gauges'         : '513c9626f5a1f5230d000092'
+  });
+  </script>
+</body>
+</html>
