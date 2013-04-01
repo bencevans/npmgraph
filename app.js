@@ -8,7 +8,8 @@ var express =require('express'),
     request = require('request'),
     redis = require('redis-url').connect(process.env.REDISTOGO_URL),
     cachey = require('cachey')({redisClient:redis}),
-    db = new (require('./lib/db'))(cachey, 60 * 60);
+    db = new (require('./lib/db'))(cachey, 60 * 60),
+    browserify = require('browserify-middleware');
 
 require('datejs');
 
@@ -20,6 +21,10 @@ app.configure(function() {
   app.set('view engine', 'html');
   app.engine('html', require('hbs').__express);
   app.use(express['static']('./public'));
+});
+
+app.configure('development', function() {
+  app.use(express.logger('dev'))
 });
 
 if(process.env.CROSS_SITE) {
@@ -37,6 +42,8 @@ if(process.env.FLUSH_START) {
 /**
  * Routes
  */
+
+app.get('/bundle.js', browserify('./client/index.js'));
 
 app.get('/', function(req, res) {
   res.redirect('/package/npm');

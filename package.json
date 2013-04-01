@@ -23,7 +23,11 @@
     "cachey": "~0.3.2",
     "datejs": "0.0.2",
     "hbs": "~2.0.1",
-    "redis-url": "~0.1.0"
+    "redis-url": "~0.1.0",
+    "underscore": "~1.4.4",
+    "browserify-middleware": "~1.4.1",
+    "async": "~0.2.6",
+    "jquery-browserify": "~1.8.1"
   },
   "engines": {
     "node": "0.8.x",
