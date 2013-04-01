@@ -43,12 +43,11 @@ if(pageType == 'user') {
     }, function(err, packages) {
       var dayTotals = [];
       for (var i = 0; i <= 29; i++) {
-        dayTotals[i] = _.reduce(packages, function(memo, package) { return memo + package.downloads[i].downloads; }, 0);
+        dayTotals[i] = {
+          downloads: _.reduce(packages, function(memo, package) { return memo + package.downloads[i].downloads; }, 0),
+          date: packages[0].downloads[i].date
+        };
       };
-      var maxDownloadsPerDay = _.max(dayTotals);
-      console.log(maxDownloadsPerDay)
-      console.log(dayTotals);
-      console.log(err, packages);
       chart(document.querySelector('svg'), dayTotals);
       $('.loader').css('display', 'none');
     });
