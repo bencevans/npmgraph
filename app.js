@@ -61,15 +61,15 @@ app.get('/package/:package/7days.json', function(req, res, next) {
   });
 });
 
-app.get('/user/:username', function(req, res, next) {
+app.get('/user/:username/packages.json', function(req, res, next) {
   db.getPackagesByUser(req.params['username'], function(err, data) {
     if(err) return next(err);
     res.jsonp(data);
   });
 });
 
-app.get('/~:user', function(req, res, next) {
-  res.render('user');
+app.get('/user/:user', function(req, res, next) {
+  res.render('user', {user:req.params.user});
 });
 
 app.get('/sitemap.xml', function(req, res, next) {
