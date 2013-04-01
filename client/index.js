@@ -27,18 +27,28 @@ function chart(svgDOM, data) {
   }
 };
 
+var pageType = $('html').attr('data-page');
 
-
-$.getJSON('/user/{{user}}/packages.json', function(packages) {
-  async.map(packages, function(package, cb) {
-    $.getJSON('/package/' + package.name + '/30days.json', function(downloads) {
-      package.downloads = downloads;
-      console.log('downloads:', downloads)
-      $('#package-list').append('<tr><td>' + package.name + '</td><td>' + package.description + '</td><td>' + _.reduce(downloads, function(memo, day) { console.log('data:', day); memo = memo || 0; return memo + day.downloads; }, 0) + '</td></tr>');
-      cb(null, package);
+if(pageType == 'user') {
+  var user = $('html').attr('data-user')
+  $.getJSON('/user/' + user + '/packages.json', function(packages) {
+    async.map(packages, function(package, cb) {
+      $.getJSON('/package/' + package.name + '/30days.json', function(downloads) {
+        package.downloads = downloads;
+        package.totalDownloads = _.reduce(downloads, function(memo, day) { return memo + day.downloads; }, 0);
+        $('#package-list').append('<tr><td><a href="/package/' + package.name + '">' + package.name + '</a></td><td>' + package.description + '</td><td>' + package.totalDownloads + '</td></tr>');
+        cb(null, package);
+      });
+    }, function(err, packages) {
+      var dayTotals = [];
+      for (var i = 0; i <= 29; i++) {
+        dayTotals[i] = _.reduce(packages, function(memo, package) { return memo + package.downloads[i].downloads; }, 0);
+      };
+      var maxDownloadsPerDay = _.max(dayTotals);
+      console.log(maxDownloadsPerDay)
+      console.log(dayTotals);
+      console.log(err, packages);
+      chart(document.querySelector('svg'), dayTotals);
     });
-  }, function(err, packages) {
-    console.log(err, packages);
-    //chart(document.querySelector('svg'), data);
   });
-});
+}
