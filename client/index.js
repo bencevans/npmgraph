@@ -1,10 +1,33 @@
 
+/**
+ * Dependencies
+ */
+
 var async = require('async');
 var $ = require('jquery-browserify')
 var _ = require('underscore');
 
-var NS = "http://www.w3.org/2000/svg";
+/**
+ * Helpers
+ */
+
+/**
+ * Reports error to user. TODO: Report to devleoper
+ * @param  {Error} error
+ * @return {Void}
+ */
+function errorReporter(error) {
+  alert('ERROR. Sorry, try reloading the page.');
+}
+
+/**
+ * Draw a bar chart
+ * @param  {DOM SVG Object} svgDOM
+ * @param  {Array} data
+ * @return {Void}
+ */
 function chart(svgDOM, data) {
+  var NS = "http://www.w3.org/2000/svg";
   var width = 710;
   var height = 150;
   var barGutter = 1;
@@ -27,6 +50,10 @@ function chart(svgDOM, data) {
   }
 };
 
+/**
+ * Routes
+ */
+
 var pageType = $('html').attr('data-page');
 
 if(pageType == 'user') {
@@ -41,14 +68,19 @@ if(pageType == 'user') {
         cb(null, package);
       });
     }, function(err, packages) {
-      var dayTotals = [];
-      for (var i = 0; i <= 29; i++) {
-        dayTotals[i] = {
-          downloads: _.reduce(packages, function(memo, package) { return memo + package.downloads[i].downloads; }, 0),
-          date: packages[0].downloads[i].date
+      if(err) return errorReporter(err);
+      if(packages && packages.length > 0) {
+        var dayTotals = [];
+        for (var i = 0; i <= 29; i++) {
+          dayTotals[i] = {
+            downloads: _.reduce(packages, function(memo, package) { return memo + package.downloads[i].downloads; }, 0),
+            date: packages[0].downloads[i].date
+          };
         };
-      };
-      chart(document.querySelector('svg'), dayTotals);
+        chart(document.querySelector('svg'), dayTotals);
+      } else {
+        alert('This user either doesn\'t exist or hasn\'t released any modules');
+      }
       $('.loader').css('display', 'none');
     });
   });
