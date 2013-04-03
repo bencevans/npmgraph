@@ -1,6 +1,6 @@
 body {
   background-color: #A7342F;
-  font-family: Verdana;
+  font: 14px Lucida Grande, sans-serif;
   color: #222;
 }
 
@@ -76,4 +76,32 @@ tr:hover {
   75% {
     border-left-color: #eee;
   }
+}
+
+
+.title {
+  color: #fff;
+  text-align: center;
+  font-size: 80px;
+  margin-top: 60px;
+}
+
+.search-container {
+  background-color: #fff;
+  width: 500px;
+  padding: 10px;
+  margin:auto;
+}
+
+.search-input {
+  display: block;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+.search-submit {
+  border: 0;
+  background: none;
+  margin: 10px auto;
+  color: #fff;
 }

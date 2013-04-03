@@ -59,4 +59,40 @@ if(pageType == 'user') {
     chart(document.querySelector('svg'), data);
     $('.loader').css('display', 'none');
   });
+} else if(pageType == 'search') {
+  var form = document.getElementById('form');
+  var urlplacer = document.getElementById('urlplacer');
+
+  form.onsubmit = function() {
+    window.location.href = getURL(urlplacer.value);
+    return false;
+  }
+
+
+  function getURL(input) {
+    console.log('getURL(input)', input);
+
+    input = input.trim();
+
+    // User
+    var matchResult = input.match(/^https?:\/\/npmjs.org\/~(.+)$/);
+    if(matchResult)
+      return '/~' + matchResult[1];
+
+    // Package
+    var matchResult = input.match(/^https:\/\/npmjs.org\/package\/(.+)/);
+    if(matchResult)
+      return '/package/' + matchResult[1];
+
+    var matchResult = input.match(/^[@|~](.+)/);
+    if(matchResult)
+      return '/~' + matchResult[1];
+
+    var matchResult = input.match(/^(.+)/);
+    if(matchResult)
+      return '/package/' + matchResult[1];
+
+    return false;
+
+  }
 }

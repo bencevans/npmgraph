@@ -20,10 +20,16 @@
 
 </head>
 <body>
+  {{#if noContainer}}
+  {{else}}
   <div class="container">
+  {{/if}}
     <div class="loader"></div>
     {{{body}}}
+  {{#if noContainer}}
+  {{else}}
   </div>
+  {{/if}}
   <script type="text/javascript" src="/bundle.js"></script>
   <script type="text/javascript" src="/js/analytics.min.js"></script>
   <script type="text/javascript">

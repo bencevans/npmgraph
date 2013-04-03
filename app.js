@@ -44,7 +44,7 @@ if(process.env.FLUSH_START) {
  */
 
 app.get('/', function(req, res) {
-  res.redirect('/package/npm');
+  res.render('search', { pageType: 'search', noContainer: true });
 });
 
 app.get('/package/:package', function(req, res, next) {
