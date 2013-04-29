@@ -105,3 +105,16 @@ tr:hover {
   margin: 10px auto;
   color: #fff;
 }
+
+.greatscontainer {
+  text-align: center;
+  color: #ccc;
+}
+
+.greatscontainer ul {
+  padding: 0;
+}
+
+.greatscontainer a {
+  color: #ddd;
+}
