@@ -3,9 +3,9 @@
  * Dependencies
  */
 
-var async = require('async');
-var $ = require('jquery-browserify')
-var _ = require('underscore');
+var async = require('async'),
+    $ = require('jquery-browserify'),
+    _ = require('underscore');
 
 /**
  * Helpers
@@ -31,24 +31,24 @@ function chart(svgDOM, data) {
   var width = 710;
   var height = 150;
   var barGutter = 1;
-  var barWidth = width / data.length
+  var barWidth = width / data.length;
   var max = null;
   for(var i in data) {
-    if(max == null || max < data[i].downloads)
+    if(max === null || max < data[i].downloads)
       max = data[i].downloads;
   }
   for(var i in data) {
     var SVGObj=document.createElementNS(NS,"rect");
-    SVGObj.setAttribute("height", ((data[i].downloads == 0) ? 0 : Math.round((data[i].downloads/max) * height)));
+    SVGObj.setAttribute("height", ((data[i].downloads === 0) ? 0 : Math.round((data[i].downloads/max) * height)));
     SVGObj.setAttribute("width", barWidth - barGutter);
-    SVGObj.setAttribute("y", height - ((data[i].downloads == 0) ? 0 : Math.round((data[i].downloads/max) * height)));
+    SVGObj.setAttribute("y", height - ((data[i].downloads === 0) ? 0 : Math.round((data[i].downloads/max) * height)));
     SVGObj.setAttribute("x", i * barWidth);
     var title = document.createElementNS(NS, "title");
     title.textContent = data[i].date + ': ' + data[i].downloads;
     SVGObj.appendChild(title);
     svgDOM.appendChild(SVGObj);
   }
-};
+}
 
 /**
  * Routes
@@ -76,7 +76,7 @@ if(pageType == 'user') {
             downloads: _.reduce(packages, function(memo, package) { return memo + package.downloads[i].downloads; }, 0),
             date: packages[0].downloads[i].date
           };
-        };
+        }
         chart(document.querySelector('svg'), dayTotals);
       } else {
         alert('This user either doesn\'t exist or hasn\'t released any modules');
@@ -98,33 +98,34 @@ if(pageType == 'user') {
   form.onsubmit = function() {
     window.location.href = getURL(urlplacer.value);
     return false;
-  }
+  };
+
+}
 
 
-  function getURL(input) {
-    console.log('getURL(input)', input);
+function getURL(input) {
+    var matchResult;
 
     input = input.trim();
 
     // User
-    var matchResult = input.match(/^https?:\/\/npmjs.org\/~(.+)$/);
+    matchResult = input.match(/^https?:\/\/npmjs.org\/~(.+)$/);
     if(matchResult)
       return '/~' + matchResult[1];
 
     // Package
-    var matchResult = input.match(/^https:\/\/npmjs.org\/package\/(.+)/);
+    matchResult = input.match(/^https:\/\/npmjs.org\/package\/(.+)/);
     if(matchResult)
       return '/package/' + matchResult[1];
 
-    var matchResult = input.match(/^[@|~](.+)/);
+    matchResult = input.match(/^[@|~](.+)/);
     if(matchResult)
       return '/~' + matchResult[1];
 
-    var matchResult = input.match(/^(.+)/);
+    matchResult = input.match(/^(.+)/);
     if(matchResult)
       return '/package/' + matchResult[1];
 
     return false;
 
   }
-}
