@@ -30,7 +30,7 @@
     "jquery-browserify": "~1.8.1"
   },
   "engines": {
-    "node": "0.8.x",
+    "node": "0.10.x",
     "npm": "1.1.x"
   }
 }
