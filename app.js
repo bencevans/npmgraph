@@ -17,6 +17,8 @@ require('datejs');
  * Configure App
  */
 
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+
 app.configure(function() {
   app.set('view engine', 'html');
   app.engine('html', require('hbs').__express);
