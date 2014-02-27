@@ -17,6 +17,9 @@ require('datejs');
  * Configure App
  */
 
+browserify.settings.production('cache', '20 mins');
+browserify.settings.mode = process.env.NODE_ENV || 'development';
+
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 app.configure(function() {
