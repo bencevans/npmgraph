@@ -1,15 +1,15 @@
+'use strict';
 
 /**
  * Dependencies
  */
 
-var express =require('express'),
-    app = express(),
-    request = require('request'),
-    redis = require('redis-url').connect(process.env.REDISTOGO_URL),
-    cachey = require('cachey')({redisClient:redis}),
-    db = new (require('./lib/db'))(cachey, 60 * 60),
-    browserify = require('browserify-middleware');
+var express    = require('express');
+var app        = express();
+var redis      = require('redis-url').connect(process.env.REDISTOGO_URL);
+var cachey     = require('cachey')({redisClient:redis});
+var db         = new (require('./lib/db'))(cachey, 60 * 60);
+var browserify = require('browserify-middleware');
 
 require('datejs');
 
@@ -20,7 +20,7 @@ require('datejs');
 browserify.settings.production('cache', '20 mins');
 browserify.settings.mode = process.env.NODE_ENV || 'development';
 
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 app.configure(function() {
   app.set('view engine', 'html');
@@ -34,8 +34,8 @@ app.configure('development', function() {
 
 if(process.env.CROSS_SITE) {
   app.all('/*', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
     next();
   });
 }
@@ -52,18 +52,18 @@ app.get('/', function(req, res) {
   res.render('search', { pageType: 'search', noContainer: true });
 });
 
-app.get('/package/:package', function(req, res, next) {
+app.get('/package/:package', function(req, res) {
   res.locals['package'] = {name:req.params['package']};
   res.locals.pageType = 'package';
   res.locals.pagePackage = req.params['package'];
   res.render('package');
 });
 
-app.get('/~:user', function(req, res, next) {
+app.get('/~:user', function(req, res) {
   res.render('user', {user:req.params.user, pageType: 'user', pageUser: req.params.user});
 });
 
-app.get('/user/:user', function(req, res, next) {
+app.get('/user/:user', function(req, res) {
   res.redirect('/~' + req.params.user);
 });
 
@@ -74,21 +74,27 @@ app.get('/user/:user', function(req, res, next) {
 
 app.get('/package/:package/30days.json', function(req, res, next) {
   db.get30Days(req.params['package'], function(err, data) {
-    if(err) return next(err);
+    if(err) {
+      return next(err);
+    }
     res.jsonp(data);
   });
 });
 
 app.get('/package/:package/7days.json', function(req, res, next) {
   db.get7Days(req.params['package'], function(err, data) {
-    if(err) return next(err);
+    if(err) {
+      return next(err);
+    }
     res.jsonp(data);
   });
 });
 
 app.get('/user/:username/packages.json', function(req, res, next) {
-  db.getPackagesByUser(req.params['username'], function(err, data) {
-    if(err) return next(err);
+  db.getPackagesByUser(req.params.username, function(err, data) {
+    if(err) {
+      return next(err);
+    }
     res.jsonp(data);
   });
 });
@@ -97,7 +103,9 @@ app.get('/bundle.js', browserify('./client/index.js'));
 
 app.get('/sitemap.xml', function(req, res, next) {
   db.getPackages(function(err, packages) {
-    if(err) return next(err);
+    if(err) {
+      return next(err);
+    }
 
     var pre ='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>http://npmgraph.bensbit.co.uk/';
     var post = '</urlset>';
