@@ -51,7 +51,7 @@ function chart(svgDOM, data) {
     SVGObj.setAttribute('y', height - ((data[i].downloads === 0) ? 0 : Math.round((data[i].downloads/max) * height)));
     SVGObj.setAttribute('x', i * barWidth);
     var title = document.createElementNS(NS, 'title');
-    title.textContent = data[i].date + ': ' + data[i].downloads;
+    title.textContent = data[i].day + ': ' + data[i].downloads;
     SVGObj.appendChild(title);
     svgDOM.appendChild(SVGObj);
   }
@@ -134,7 +134,7 @@ if(pageType === 'user') {
   var packageInfo = $('html').attr('data-package');
   $('.loader').css('display', 'block');
   $.getJSON('/package/' + packageInfo + '/30days.json', function(data) {
-    chart(document.querySelector('svg'), data);
+    chart(document.querySelector('svg'), data.downloads);
     $('.loader').css('display', 'none');
   });
 } else if(pageType === 'search') {
