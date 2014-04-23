@@ -52,11 +52,16 @@ app.get('/', function(req, res) {
   res.render('search', { pageType: 'search', noContainer: true });
 });
 
-app.get('/package/:package', function(req, res) {
-  res.locals['package'] = {name:req.params['package']};
-  res.locals.pageType = 'package';
-  res.locals.pagePackage = req.params['package'];
-  res.render('package');
+app.get('/package/:package', function(req, res, next) {
+  db.getPackage(req.params['package'], function(err, info) {
+    if(err) { return next(err); }
+    res.locals.maintainers = info.versions[info['dist-tags'].latest].maintainers;
+    res.locals.packageInfo = info;
+    res.locals['package'] = {name:req.params['package']};
+    res.locals.pageType = 'package';
+    res.locals.pagePackage = req.params['package'];
+    res.render('package');
+  });
 });
 
 app.get('/~:user', function(req, res) {
